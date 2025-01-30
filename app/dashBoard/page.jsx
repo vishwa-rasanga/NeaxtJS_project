@@ -6,7 +6,7 @@ import { getMovies } from "../libs/apis/server";
 // 3.read the dummy respons
 // 4.render data set in UI
 export default async function Dashboard() {
-  const { movies } = getMovies();
+  const { movies } = await getMovies();
 
   return (
     <main>
@@ -21,14 +21,14 @@ export default async function Dashboard() {
 
       <div className="container m-8 ">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          <div className="h-96 bg-green-400"> dev1</div>
+          {/*<div className="h-96 bg-green-400"> dev1</div>
           <div className="h-96 bg-red-400"> dev2</div>
           <div className="h-96 bg-yellow-400"> dev3</div>
           <div className="h-96 bg-pink-400"> dev4</div>
           <div className="h-96 bg-blue-400"> dev5</div>
           <div className="h-96 bg-orange-400"> dev5</div>
           <div className="h-96 bg-pink-400"> dev5</div>
-          <div className="h-96 bg-orange-400"> dev5</div>
+          <div className="h-96 bg-orange-400"> dev5</div>*/}
           {movies?.length &&
             movies.map((movies) => (
               <div key={movies.id} className="h-96 bg-green-400">

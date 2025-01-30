@@ -1,5 +1,3 @@
-import ky from "ky";
-
 import { api } from "../api";
 export const loginUser = async (loginData) => {
   try {
@@ -33,8 +31,38 @@ export const loginUser = async (loginData) => {
 };
 
 /*----------Movies------------------*/
+
+// export const getMovies = async () => {
+//   try {
+//     const response = await api.get("movies", {
+//       // Ensure api.get is properly set up
+//       cache: "no-store",
+//     });
+//     if (response.ok) {
+//       return response.json();
+//     } else {
+//       return { error: true, message: "something went wrong" };
+//     }
+//   } catch (error) {
+//     console.log("Movie Respons:", error);
+//     if (error.response) {
+//       // Handle HTTP errors
+//       const status = error?.response?.status;
+//       const responseBody = await error?.response?.json();
+//       console.log("http error:", status, responseBody);
+//     } else {
+//       // Handle non-HTTP errors (e.g., network issues)
+//       console.log("Unknown error:", error.message);
+//     }
+//     return undefined;
+//   }
+// };
+
 export const getMovies = async () => {
   try {
+    // const baseURL = process.env.NEXT_PUBLIC_API_URl;
+    // console.log("Base URL:", baseURL);
+
     const response = await api.get("movies", {
       cache: "no-store",
     });
@@ -48,6 +76,8 @@ export const getMovies = async () => {
       return { error: true, message: "Something went wrong" };
     }
   } catch (error) {
+    console.log("MOVIES RESPONSE", error);
+
     if (error.response) {
       // Handle HTTP errors
       console.error(
