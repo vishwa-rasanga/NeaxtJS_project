@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import clientPromise from "../../../libs/mongodb";
 
 const MOVIES = [
   { id: 1, title: "Lod of the Ring" },
@@ -12,5 +13,24 @@ const MOVIES = [
 ];
 
 export const GET = async (req) => {
+  try {
+    //get movies from mongodb
+    const client = await clientPromise();
+
+    // smaple Mfliex movies  database name
+    const db = client.db("sample_mfliex");
+
+    //fetch movies from data base
+    const movies = await db
+      .collection("movies")
+      .find({})
+      .sort({ metacritic: -1 })
+      .limit(10)
+      .toArray();
+
+    console.log("Mfliex Movies:", movies);
+  } catch (error) {
+    console.log("Mongodb error:", error);
+  }
   return NextResponse.json({ success: true, movies: MOVIES });
 };
