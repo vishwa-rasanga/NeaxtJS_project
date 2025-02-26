@@ -1,5 +1,8 @@
 import React from "react";
 import { getMovies } from "../libs/apis/server";
+import { Badge } from "@/components/ui/badge";
+
+import { FaStar } from "react-icons/fa";
 import {
   Card,
   CardContent,
@@ -46,7 +49,13 @@ export default async function Dashboard() {
                 {movies?.title} */}
                 <Card className="h-full">
                   <CardHeader>
-                    <CardTitle>{movies?.title}</CardTitle>
+                    <CardTitle className="text-center">
+                      {movies?.title}{" "}
+                      <span className="text-xs text-neutral-500 font-normal">
+                        {" "}
+                        {movies?.year ?? "N/A"}{" "}
+                      </span>
+                    </CardTitle>
                     <CardDescription className="src-only"></CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -59,7 +68,29 @@ export default async function Dashboard() {
                         className="h-full w-auto object-contain"
                       />
                     </div>
-                    <p className="line-clamp-3">{movies?.plot}</p>
+                    <div className="flex flex-col justify-between h-[154px]">
+                      <p className="line-clamp-3 text-xs">{movies?.plot}</p>
+                      <div className="text-sm text-blue-600 font-semibold">
+                        {movies?.genres.length && movies?.genres?.join("/ ")}
+                      </div>
+                      <div className="flex flex-row justify-between items-center">
+                        <Badge variant="success" className="font-medium">
+                          {" "}
+                          Rated:{movies?.reated ?? "N/A"}
+                        </Badge>
+                        <div
+                          className=" flex flex-row gap-1 items-center"
+                          title="IMBD Rating"
+                        >
+                          {" "}
+                          <FaStar className=" text-yellow-400" />
+                          <span className="text-sm font-semibold">
+                            {" "}
+                            {movies?.imdb?.rating ?? 0}/10{" "}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </CardContent>
                   <CardFooter className="flex justify-between"></CardFooter>
                 </Card>
