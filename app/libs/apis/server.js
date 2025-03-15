@@ -92,3 +92,28 @@ export const getMovies = async () => {
     return { error: true, message: "An unknown error occurred" };
   }
 };
+
+// Register User Action
+export const registerUser = async (formData) => {
+  try {
+    const response = await api.post("register", { json: formData });
+    if (response.ok) {
+      return response.json();
+    } else {
+      return undefined;
+    }
+
+    // console.log("Form Data", formData);
+    //console.log("Registration Respons", response);
+  } catch (error) {
+    const status = error.response.status;
+    const responseBody = await error.response.json();
+    if (status && responseBody) {
+      if (status === 409) {
+        return responseBody;
+      }
+      return undefined;
+    }
+    return undefined;
+  }
+};

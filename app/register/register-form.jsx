@@ -15,6 +15,7 @@ const DEFAULT_ERROR = {
   error: false,
   message: " ",
 };
+import { registerUser } from "@/app/libs/apis/server";
 
 //keep this as a client component
 
@@ -24,20 +25,31 @@ export default function RegisterForm() {
     event?.preventDefault();
 
     const formData = new FormData(event?.currentTarget);
-    const name = formData.get("name") ?? "";
-    const email = formData.get("email") ?? "";
+    const name = formData.get("name").toString();
+    const email = formData.get("email").toString();
     const password = formData.get("password") ?? "";
     const confirmPassword = formData.get("confirmPassword") ?? "";
     //console.log("Submitted!", { name, email, password, ConfirmPassword });
 
-    if (name && email && password && confirmPassword) {
-      if (password === confirmPassword) {
-        setError(DEFAULT_ERROR);
-      } else {
-        setError({ error: true, message: "password doesnt match" });
+    //Basic font validation logic
+    //if (name && email && password && confirmPassword) {
+    if (password === confirmPassword) {
+      setError(DEFAULT_ERROR);
+
+      const registerResp = await registerUser({
+        name,
+        email,
+        password,
+      });
+      if (registerResp?.error) {
+        setError({ error: true, message: registerResp.error });
       }
+      //console.log("registerResp", registerResp);
+    } else {
+      setError({ error: true, message: "password doesnt match" });
     }
-    console.log("Error!", error);
+    //}
+    //console.log("Error!", error);
   };
 
   return (
