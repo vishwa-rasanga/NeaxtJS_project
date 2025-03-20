@@ -10,17 +10,22 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
+import { registerUser } from "@/app/libs/apis/server";
+import { Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 const DEFAULT_ERROR = {
   error: false,
   message: " ",
 };
-import { registerUser } from "@/app/libs/apis/server";
 
 //keep this as a client component
 
 export default function RegisterForm() {
   const [error, setError] = useState(DEFAULT_ERROR);
+  const [isLoading, setLoading] = useState(false);
+  const { toast } = useToast();
   const handleSubmitForm = async (event) => {
     event?.preventDefault();
 
@@ -36,13 +41,28 @@ export default function RegisterForm() {
     if (password === confirmPassword) {
       setError(DEFAULT_ERROR);
 
+      //Before the Request
+      setLoading(true);
       const registerResp = await registerUser({
         name,
         email,
         password,
       });
+      //after the request
+      setLoading(false);
       if (registerResp?.error) {
         setError({ error: true, message: registerResp.error });
+      } else {
+        toast({
+          variant: "sucess",
+          title: "your Registration Sucessfull!",
+          description: "Please continue with login",
+          action: (
+            <ToastAction altText="login" className="hover:bg-green-600/80">
+              Login
+            </ToastAction>
+          ),
+        });
       }
       //console.log("registerResp", registerResp);
     } else {
@@ -130,7 +150,9 @@ export default function RegisterForm() {
               <Button
                 className="flex-1 bg-green-600 hover:bg-blue-600"
                 type="submit"
+                disabled={isLoading}
               >
+                {isLoading && <Loader2 className="animate-spin" />}
                 Register
               </Button>{" "}
             </CardFooter>
