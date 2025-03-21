@@ -1,5 +1,5 @@
 import React from "react";
-import { getMovies } from "../libs/apis/server";
+import { getMovies } from "@/lib/apis/server";
 import { Badge } from "@/components/ui/badge";
 
 import { FaStar } from "react-icons/fa";

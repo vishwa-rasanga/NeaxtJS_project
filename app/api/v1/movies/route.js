@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import clientPromise from "../../../libs/mongodb";
-import { error } from "console";
+import clientPromise from "@/lib/mongodb";
 
 // const MOVIES = [
 //   { id: 1, title: "Lod of the Ring" },
